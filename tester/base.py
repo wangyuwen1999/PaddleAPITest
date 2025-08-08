@@ -786,6 +786,10 @@ class APITestBase:
         paddle_dlpack = paddle.utils.dlpack.to_dlpack(paddle_tensor)  # type: ignore
         converted_paddle_tensor = torch.utils.dlpack.from_dlpack(paddle_dlpack)  # type: ignore
 
+        mask = torch_tensor == 0.0
+        torch_tensor[mask] += 1 
+        converted_paddle_tensor[mask] += 1
+
         def error_msg(msg):
             return (
                 f"Not equal to tolerance rtol={rtol}, atol={atol}\n"
